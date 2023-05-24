@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using TMPro;
 
 public class BowlingController : MonoBehaviour
 {
     public GameObject bowlingSetupPrefab;
+
+    public GameObject leftController;
+    public GameObject rightController;
+    public TextMeshProUGUI debug;
 
     // The instance of the bowling setup that we spawn into the world.
     GameObject bowlingSetup;
@@ -14,7 +20,8 @@ public class BowlingController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        var ctrl = leftController.GetComponent<ActionBasedController>();
+        ctrl.positionAction.action.performed += ctx => debug.text = "Left Pos: " + ctx.ReadValue<Vector3>();
     }
 
     // Update is called once per frame

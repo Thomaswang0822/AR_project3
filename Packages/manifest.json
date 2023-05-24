@@ -2,7 +2,7 @@
   "dependencies": {
     "com.qualcomm.qcht.unity.interactions": "file:Snapdragon_Spaces_SDK_0_13_0_for_Unity/Unity Package/com.qualcomm.qcht.unity.interactions-4.0.0-pre.11.tgz",
     "com.qualcomm.snapdragon.spaces": "file:Snapdragon_Spaces_SDK_0_13_0_for_Unity/Unity Package/SnapdragonSpaces_Package_0_13_0.tgz",
-    "com.unity.collab-proxy": "2.0.1",
+    "com.unity.collab-proxy": "2.0.3",
     "com.unity.feature.ar": "1.0.0",
     "com.unity.feature.development": "1.0.1",
     "com.unity.feature.vr": "1.0.0",

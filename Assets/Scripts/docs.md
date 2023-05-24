@@ -12,7 +12,18 @@ Basically, there are two ways to set up a scene. You can either use an AR Sessio
 (you still need both; this is mentioned here [^3]).
 
 In AR Foundation version 5 and up, the XR Camera setup has become the preferred method, with the AR Session Origin
-method being deprecated. *However*, the Snapdragon Spaces SDK installs version 4 by default, 
+method being deprecated [^4]. *However*, the Snapdragon Spaces SDK installs version 4 by default, which requires you to
+use the AR Session Origin to use AR.
+
+Thus, there are two options here.
+
+- Use the default version of AR Foundation installed by the Snapdragon SPACES SDK (4.2.7), and use the AR Session and
+  the AR Session Origin.
+- Manually upgrade the version of AR Foundation used, as described here [^5], and use the AR Session with the XR Camera.
+
+For more info, check the manuals for AR Foundation 4.2 (the current version) [^6] and 5.0 (the new version) [^7].
+These also have info on how to use different AR features (e.g. plane tracking, which we need for doing bowling ball
+spawning).
 
 # Useful Docs
 
@@ -26,3 +37,7 @@ method being deprecated. *However*, the Snapdragon Spaces SDK installs version 4
 [^1] https://docs.spaces.qualcomm.com/unity/handtracking/BasicSceneSetup.html
 [^2] https://docs.spaces.qualcomm.com/unity/samples/SceneSetup.html
 [^3] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/project-setup/scene-setup.html
+[^4] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/version-history/migration-guide-5-x.html
+[^5] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/project-setup/edit-your-project-manifest.html
+[^6] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@4.2/manual/index.html
+[^7] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/index.html

@@ -25,6 +25,23 @@ For more info, check the manuals for AR Foundation 4.2 (the current version) [^6
 These also have info on how to use different AR features (e.g. plane tracking, which we need for doing bowling ball
 spawning).
 
+# Hand-tracking and input handling
+
+To do hand-tracking, we use QCHT 4.0, which in turns uses the XR Interaction Toolkit.
+The basic scene setup tutorial [^8] describes roughly how QCHT works. QCHT's novel contribution is that it adds
+the XR Hand Tracking Manager along with the XRControllerPointer{Left/Right} prefabs.
+
+The meat of the configuration for hand-tracking is in the XR Controller component for each of these prefab items.
+This component maps hand tracking data (i.e. position and rotation) and hand gestures (i.e. selection via pinch,
+etc.) to *actions*. These actions are part of Unity's input system, and they're how we can get controller position/rotation
+data and do on-pinch callbacks. The broader reason for this input/action system is to be able to do this in a
+controller-generic way and map controller inputs to general actions (e.g. move, click, ...). More info about actions
+(and Unity's input system) is available in the Unity Input System documentation [^10].
+
+
+For doing controller ray casting for e.g. choosing where to spawn the bowling thing, we can use the XR Ray Interactor,
+which can do ray casts and see what objects it intersects with [^9].
+
 # Useful Docs
 
 - [QCHT Guide](https://docs.spaces.qualcomm.com/unity/handtracking/HandTrackingOverview.html)
@@ -41,3 +58,6 @@ spawning).
 [^5] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/project-setup/edit-your-project-manifest.html
 [^6] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@4.2/manual/index.html
 [^7] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/index.html
+[^8] https://docs.spaces.qualcomm.com/unity/handtracking/BasicSceneSetup.html
+[^9] https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@2.0/api/UnityEngine.XR.Interaction.Toolkit.XRRayInteractor.html#UnityEngine_XR_Interaction_Toolkit_XRRayInteractor_TryGetCurrent3DRaycastHit_UnityEngine_RaycastHit__
+[^10] https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html

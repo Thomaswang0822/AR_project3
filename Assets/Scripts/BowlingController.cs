@@ -8,6 +8,7 @@ using TMPro;
 public class BowlingController : MonoBehaviour
 {
     public GameObject bowlingSetupPrefab;
+    public Camera mainCamera;
 
     public GameObject leftController;
     public GameObject rightController;
@@ -58,6 +59,8 @@ public class BowlingController : MonoBehaviour
         }
 
         bowlingSetup = Instantiate(bowlingSetupPrefab, pos, Quaternion.identity);
+        GameObject station = GameObject.Find("Station").gameObject;
+        station.GetComponent<Canvas>().worldCamera = mainCamera;
         // Orient it correctly
         bowlingSetup.transform.forward = forward;
     }

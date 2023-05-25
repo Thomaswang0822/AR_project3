@@ -21,8 +21,8 @@ public class BowlingController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var ctrl = leftController.GetComponent<ActionBasedController>();
-        ctrl.positionAction.action.performed += ctx => debug.text = "Left Pos: " + ctx.ReadValue<Vector3>();
+        //var ctrl = leftController.GetComponent<ActionBasedController>();
+        //ctrl.positionAction.action.performed += ctx => debug.text = "Left Pos: " + ctx.ReadValue<Vector3>();
     }
 
     // Update is called once per frame
@@ -59,8 +59,29 @@ public class BowlingController : MonoBehaviour
 
     public void SpawnAR() {
         // TODO: Put the raycasting/plane stuff here.
-        //       For now, just spawn in an arbitrary place
-        Spawn(new Vector3(0.0f, 0.0f, 1.5f), new Vector3(0.0f, 0.0f, -1.0f));
+
+        var ctrl = leftController.GetComponent<XRRayInteractor>();
+        //ctrl.positionAction.action.performed += ctx => debug.text = "Left Pos: " + ctx.ReadValue<Vector3>();
+        ctrl.enableUIInteraction = true;
+        //ctrl.raycastMask = (layermask)
+        Transform rayTransf = ctrl.rayOriginTransform;
+
+        Ray ray = new Ray(rayTransf.position, rayTransf.forward);
+        RaycastHit hit; 
+
+        //random value rn
+        LayerMask interactableLayermask = 6;
+
+        if(Physics.Raycast(ray, out hit, 10f, interactableLayermask)) {
+            Vector3 position = hit.point;
+            Vector3 direction = rayTransf.forward;
+            direction.y = 0;
+            Vector3.Normalize(direction);
+            position = position += direction*5f;
+
+            Spawn(position, direction);
+        }
+        //Spawn(new Vector3(0,0,0), new Vector3(0,0,1f));
     }
 
     public void ToggleGuards() {

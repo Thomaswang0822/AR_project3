@@ -38,9 +38,18 @@ data and do on-pinch callbacks. The broader reason for this input/action system 
 controller-generic way and map controller inputs to general actions (e.g. move, click, ...). More info about actions
 (and Unity's input system) is available in the Unity Input System documentation [^10].
 
+## Raycasting etc.
 
 For doing controller ray casting for e.g. choosing where to spawn the bowling thing, we can use the XR Ray Interactor,
-which can do ray casts and see what objects it intersects with [^9].
+which can do ray casts and see what objects it intersects with.
+
+There are two possibilities:
+
+- Use the XR Ray Interactor's built in raycasting intersection stuff [^9]. The AR Plane Manager adds detected planes
+  as ARPlane objects in the hierarchy, under XR Origin/Trackables.
+- Just get the ray from the XR Ray Interactor (the `effectiveRayOrigin` field of this component, which is a transform
+  containing both position/origin and direction/forward), then use the AR Raycast Manager to do a raycast. The manager
+  takes care of limiting raycast checks to just trackables (point cloud or, in our case, planes) [^11].
 
 # Useful Docs
 
@@ -53,12 +62,23 @@ which can do ray casts and see what objects it intersects with [^9].
 # Footnotes
 
 [^1] https://docs.spaces.qualcomm.com/unity/handtracking/BasicSceneSetup.html
+
 [^2] https://docs.spaces.qualcomm.com/unity/samples/SceneSetup.html
+
 [^3] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/project-setup/scene-setup.html
+
 [^4] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/version-history/migration-guide-5-x.html
+
 [^5] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/project-setup/edit-your-project-manifest.html
+
 [^6] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@4.2/manual/index.html
+
 [^7] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.0/manual/index.html
+
 [^8] https://docs.spaces.qualcomm.com/unity/handtracking/BasicSceneSetup.html
+
 [^9] https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@2.0/api/UnityEngine.XR.Interaction.Toolkit.XRRayInteractor.html#UnityEngine_XR_Interaction_Toolkit_XRRayInteractor_TryGetCurrent3DRaycastHit_UnityEngine_RaycastHit__
+
 [^10] https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/Actions.html
+
+[^11] https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@4.0/manual/raycast-manager.html

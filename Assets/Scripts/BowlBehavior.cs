@@ -11,9 +11,9 @@ public class BowlBehavior : MonoBehaviour
         GameObject ball = GameObject.Find("BowlingBall").gameObject;
         Rigidbody rb = ball.GetComponent<Rigidbody>();
 
-        // Vector3 force = new Vector3(speed * rb.mass * Mathf.Sin(angle), 0.0f, speed * rb.mass * Mathf.Cos(angle));
-        // rb.AddForce(force, ForceMode.Impulse);
+        Vector3 force = new Vector3(speed * rb.mass * Mathf.Sin(angle), 0.0f, speed * rb.mass * Mathf.Cos(angle));
+        rb.AddForce(force, ForceMode.Impulse);
 
-        rb.velocity = new Vector3(speed * Mathf.Sin(angle), 0.0f, speed * Mathf.Cos(angle));
+        // rb.velocity = new Vector3(speed * Mathf.Sin(angle), 0.0f, speed * Mathf.Cos(angle));
     }
 }

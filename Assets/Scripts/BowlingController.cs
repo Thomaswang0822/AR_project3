@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.ARFoundation;
 using TMPro;
 
 public class BowlingController : MonoBehaviour
@@ -21,8 +22,18 @@ public class BowlingController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //var ctrl = leftController.GetComponent<ActionBasedController>();
-        //ctrl.positionAction.action.performed += ctx => debug.text = "Left Pos: " + ctx.ReadValue<Vector3>();
+        var ctrl = leftController.GetComponent<ActionBasedController>();
+        ctrl.positionAction.action.performed += ctx => {
+
+            var ctrl = leftController.GetComponent<XRRayInteractor>();
+            // ctrl.enableUIInteraction = true;
+
+            RaycastHit hit; 
+            if (ctrl.TryGetCurrent3DRaycastHit(out hit)) {
+                var obj = hit.collider.gameObject;
+                debug.text = "hit! " + obj.name;
+            }
+        };
     }
 
     // Update is called once per frame
@@ -45,6 +56,7 @@ public class BowlingController : MonoBehaviour
         if (bowlingSetup != null) {
             Destroy(bowlingSetup);
         }
+
         bowlingSetup = Instantiate(bowlingSetupPrefab, pos, Quaternion.identity);
         // Orient it correctly
         bowlingSetup.transform.forward = forward;
@@ -58,30 +70,28 @@ public class BowlingController : MonoBehaviour
     }
 
     public void SpawnAR() {
-        // TODO: Put the raycasting/plane stuff here.
-
         var ctrl = leftController.GetComponent<XRRayInteractor>();
-        //ctrl.positionAction.action.performed += ctx => debug.text = "Left Pos: " + ctx.ReadValue<Vector3>();
-        ctrl.enableUIInteraction = true;
-        //ctrl.raycastMask = (layermask)
-        Transform rayTransf = ctrl.rayOriginTransform;
+        // ctrl.enableUIInteraction = true;
 
-        Ray ray = new Ray(rayTransf.position, rayTransf.forward);
         RaycastHit hit; 
+        if (ctrl.TryGetCurrent3DRaycastHit(out hit)) {
+            GameObject obj = hit.collider.gameObject;
+            ARPlane plane = obj.GetComponent<ARPlane>();
+            if (plane != null) {
+                Vector3 position = hit.point;
+                Vector3 direction = ctrl.rayOriginTransform.forward;
+                Vector3 normal = plane.normal;
 
-        //random value rn
-        LayerMask interactableLayermask = 6;
+                // To get forward direction, we project the ray direction onto the plane.
+                // https://math.stackexchange.com/questions/633181/formula-to-project-a-vector-onto-a-plane
+                Vector3 forward = direction - Vector3.Dot(direction, normal) * normal;
+                forward = Vector3.Normalize(forward);
 
-        if(Physics.Raycast(ray, out hit, 10f, interactableLayermask)) {
-            Vector3 position = hit.point;
-            Vector3 direction = rayTransf.forward;
-            direction.y = 0;
-            Vector3.Normalize(direction);
-            position = position += direction*5f;
+                position += forward * 3f;
 
-            Spawn(position, direction);
+                Spawn(position, -forward);
+            }
         }
-        //Spawn(new Vector3(0,0,0), new Vector3(0,0,1f));
     }
 
     public void ToggleGuards() {

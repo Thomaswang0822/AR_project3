@@ -46,10 +46,13 @@ which can do ray casts and see what objects it intersects with.
 There are two possibilities:
 
 - Use the XR Ray Interactor's built in raycasting intersection stuff [^9]. The AR Plane Manager adds detected planes
-  as ARPlane objects in the hierarchy, under XR Origin/Trackables.
+  as objects with an AR Plane component in the hierarchy, under XR Origin/Trackables, so we can check if the object
+  has the correct component, then access the AR Plane's `center` and `normal` field to do all the math.
 - Just get the ray from the XR Ray Interactor (the `effectiveRayOrigin` field of this component, which is a transform
   containing both position/origin and direction/forward), then use the AR Raycast Manager to do a raycast. The manager
   takes care of limiting raycast checks to just trackables (point cloud or, in our case, planes) [^11].
+
+Once we get 
 
 # Useful Docs
 

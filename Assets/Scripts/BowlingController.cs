@@ -14,6 +14,7 @@ public class BowlingController : MonoBehaviour
 
     // The instance of the bowling setup that we spawn into the world.
     GameObject bowlingSetup;
+    Rigidbody bbrb; // bowling ball rigid body
     GameObject leftGuard;
     GameObject rightGuard;
 
@@ -27,6 +28,7 @@ public class BowlingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Debug inputs
         if (Input.GetKeyDown("e")) {
             Spawn(new Vector3(0.0f, 0.0f, 1.5f), new Vector3(0.0f, 0.0f, -1.0f));
         } else if (Input.GetKeyDown("r")) {
@@ -55,13 +57,36 @@ public class BowlingController : MonoBehaviour
         }
     }
 
+    public void SpawnAR() {
+        // TODO: Put the raycasting/plane stuff here.
+        //       For now, just spawn in an arbitrary place
+        Spawn(new Vector3(0.0f, 0.0f, 1.5f), new Vector3(0.0f, 0.0f, -1.0f));
+    }
+
     public void ToggleGuards() {
         if (leftGuard == null || rightGuard == null) {
             leftGuard = GameObject.Find("GuardRail_L");
             rightGuard = GameObject.Find("GuardRail_R");
         }
 
-        leftGuard.SetActive(!leftGuard.activeInHierarchy);
-        rightGuard.SetActive(!rightGuard.activeInHierarchy);
+        if (leftGuard != null && rightGuard != null) {
+            leftGuard.SetActive(!leftGuard.activeInHierarchy);
+            rightGuard.SetActive(!rightGuard.activeInHierarchy);
+        }
     }
+
+    public void ChangeBallMass(float val) {
+        if (bbrb == null) {
+            GameObject ball = GameObject.Find("BowlingBall").gameObject;
+            if (ball != null) {
+                bbrb = ball.GetComponent<Rigidbody>();
+            }
+        }
+
+        if (bbrb != null) {
+            bbrb.mass = val;
+        }
+    }
+
+    // TODO: Incorporate BowlBehavior into here?
 }

@@ -23,16 +23,22 @@ public class Numpad : MonoBehaviour
     }
 
     public void AddDigit(int digit) {
+        if (digit == 0 && state == "") {
+            return;
+        }
+        
         state = state + digit;
         UpdateDisplay();
     }
 
     public void Backspace() {
-        state = state.Remove(state.Length - 1, 1);
-        UpdateDisplay();
+        if (state.Length >= 1) {
+            state = state.Remove(state.Length - 1, 1);
+            UpdateDisplay();
+        }
     }
 
-    void UpdateDisplay() {
+    public void UpdateDisplay() {
         if (state.Length >= 2) {
             text.text = state.Remove(state.Length - 1, 1) + "." + state[state.Length - 1];
             float val = float.Parse(text.text, CultureInfo.InvariantCulture.NumberFormat);
@@ -42,7 +48,7 @@ public class Numpad : MonoBehaviour
             float val = float.Parse(text.text, CultureInfo.InvariantCulture.NumberFormat);
             bowlingController.GetComponent<BowlingController>().ChangeBallMass(val);
         } else {
-            text.text = "0.0`";
+            text.text = "0.0";
             bowlingController.GetComponent<BowlingController>().ChangeBallMass(0.0f);
         }
     }

@@ -23,18 +23,18 @@ public class BowlingController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var ctrl = leftController.GetComponent<ActionBasedController>();
-        ctrl.positionAction.action.performed += ctx => {
+        // var ctrl = leftController.GetComponent<ActionBasedController>();
+        // ctrl.positionAction.action.performed += ctx => {
 
-            var ctrl = leftController.GetComponent<XRRayInteractor>();
-            // ctrl.enableUIInteraction = true;
+        //     var ctrl = leftController.GetComponent<XRRayInteractor>();
+        //     // ctrl.enableUIInteraction = true;
 
-            RaycastHit hit; 
-            if (ctrl.TryGetCurrent3DRaycastHit(out hit)) {
-                var obj = hit.collider.gameObject;
-                debug.text = "hit! " + obj.name;
-            }
-        };
+        //     RaycastHit hit; 
+        //     if (ctrl.TryGetCurrent3DRaycastHit(out hit)) {
+        //         var obj = hit.collider.gameObject;
+        //         debug.text = "hit! " + obj.name;
+        //     }
+        // };
     }
 
     // Update is called once per frame
@@ -63,12 +63,18 @@ public class BowlingController : MonoBehaviour
         station.GetComponent<Canvas>().worldCamera = mainCamera;
         // Orient it correctly
         bowlingSetup.transform.forward = forward;
+
+        GameObject numpad = GameObject.Find("Numpad").gameObject;
+        numpad.GetComponent<Numpad>().UpdateDisplay();
     }
 
     public void Restart() {
-        // Restart just despawns
+        // Respawn in the same position
         if (bowlingSetup != null) {
-            Destroy(bowlingSetup);
+            var xf = bowlingSetup.transform;
+            Spawn(xf.position, xf.forward);
+        } else {
+            SpawnAR();
         }
     }
 
